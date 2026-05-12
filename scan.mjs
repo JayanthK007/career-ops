@@ -262,7 +262,9 @@ async function main() {
   }
 
   const config = parseYaml(readFileSync(PORTALS_PATH, 'utf-8'));
-  const companies = config.tracked_companies || [];
+  const companies = Array.isArray(config.tracked_companies) 
+    ? config.tracked_companies 
+    : (config.tracked_companies?.companies || []);
   const titleFilter = buildTitleFilter(config.title_filter);
 
   // 2. Filter to enabled companies with detectable APIs
